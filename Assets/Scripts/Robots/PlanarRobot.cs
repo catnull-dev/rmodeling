@@ -18,10 +18,13 @@ namespace RModeling
 
         public override void MoveJoints(float[] values)
         {
-            var jointValuePairs = joints.Zip(values, (joint, value) => (Joint: joint, Value: value));
-            foreach (var pair in jointValuePairs)
+            if (values != null)
             {
-                pair.Joint.MoveJoint(pair.Value);
+                var jointValuePairs = joints.Zip(values, (joint, value) => (Joint: joint, Value: value));
+                foreach (var pair in jointValuePairs)
+                {
+                    pair.Joint.MoveJoint(pair.Value);
+                }
             }
         }
 
@@ -45,11 +48,15 @@ namespace RModeling
             var bottom = 2 * Length1 * c;
 
             var addTop = Mathf.Pow(Length1, 2) + Mathf.Pow(Length2, 2) - Mathf.Pow(c, 2);
-            Debug.Log("Add top is " + addTop + "; c is " + c);
             var addBottom = 2 * Length2 * Length1;
 
             var q1 = Mathf.Rad2Deg * ((numberConfiguration * Mathf.Acos(top / bottom) + atan));
             var q2 = -180 + Mathf.Rad2Deg * (numberConfiguration * Mathf.Acos(addTop / addBottom));
+
+            if (float.IsNaN(q1) || float.IsNaN(q2))
+            {
+                return null;
+            }
 
             q1 = WrapAngle(q1);
             q2 = WrapAngle(q2);
@@ -59,9 +66,19 @@ namespace RModeling
 
         public override PlanarPose SolveForward(float[] joints)
         {
-            throw new System.NotImplementedException();
+            var t1 = Matrix4x4.identity * Matrix4x4.TRS(Vector3.zero, Quaternion.AngleAxis(joints[0], new Vector3(0, 0, 1)), Vector3.one);
+            var t2 = t1 * Matrix4x4.TRS(new Vector3(0.717f, 0, 0), Quaternion.identity, Vector3.one);
+            var t3 = t2 * Matrix4x4.TRS(Vector3.zero, Quaternion.AngleAxis(joints[1], new Vector3(0, 0, 1)), Vector3.one);
+            var t4 = t3 * Matrix4x4.TRS(new Vector3(0.717f, 0, 0), Quaternion.identity, Vector3.one);
+            
+            var planarPose = new PlanarPose();
+            planarPose.X = t4.GetPosition().x;
+            planarPose.Y = t4.GetPosition().y;
+            planarPose.Z = t4.GetPosition().z;
+            
+            return planarPose;
         }
 
-        float WrapAngle(float angle) => angle - 360f * Mathf.Floor((angle + 180f) / 360f);
+        private float WrapAngle(float angle) => angle - 360f * Mathf.Floor((angle + 180f) / 360f);
     }
 } 

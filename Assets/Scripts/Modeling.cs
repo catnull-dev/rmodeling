@@ -11,7 +11,7 @@ namespace RModeling
 
         [SerializeField]
         protected Vector3 axis;
-
+        
         public abstract void MoveJoint(Type value);
     }
 
@@ -38,5 +38,8 @@ namespace RModeling
 
         [SerializeField]
         protected Transform target;
+
+        [SerializeField]
+        protected Transform forwardTarget;
     }
 }

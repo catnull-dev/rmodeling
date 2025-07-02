@@ -6,13 +6,23 @@ namespace RModeling
     {
         private void Update()
         {
-            var planarPose = new PlanarPose();
-            planarPose.X = target.position.x;
-            planarPose.Y = target.position.y;
-            planarPose.Z = target.position.z;
+            if (target != null)
+            {
+                var planarPose = new PlanarPose();
+                planarPose.X = target.position.x;
+                planarPose.Y = target.position.y;
+                planarPose.Z = target.position.z;
 
-            var gens = controller.SolveInverse(planarPose);
-            controller.MoveJoints(gens);
+                var gens = controller.SolveInverse(planarPose);
+                controller.MoveJoints(gens);
+                
+                if (forwardTarget != null && gens != null)
+                {
+                    var endPosition = controller.SolveForward(gens);
+                    var result = new Vector3(endPosition.X, endPosition.Y, endPosition.Z);
+                    forwardTarget.position = result;
+                }
+            }
         }
     }
 
