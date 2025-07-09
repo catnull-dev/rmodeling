@@ -81,5 +81,10 @@ namespace RModeling.Robots
         }
 
         private float WrapAngle(float angle) => angle - 360f * Mathf.Floor((angle + 180f) / 360f);
+
+        public override float[] GetValues()
+        {
+            return this.joints.Select(joint => joint.CurrentJointValue).ToArray();
+        }
     }
 } 

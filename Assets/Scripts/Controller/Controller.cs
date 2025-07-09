@@ -6,16 +6,11 @@ namespace RModeling.Controller
 {
     public class Controller : MonoBehaviour
     {
-        private Queue<ICommand> commands;
+        private Queue<ICommand> commands = new Queue<ICommand>();
 
         private ICommand currentCommand;
 
         private ControllerStatus status;
-
-        private void Start()
-        {
-            commands = new Queue<ICommand>();
-        }
 
         private void Update()
         {
@@ -25,7 +20,7 @@ namespace RModeling.Controller
             }
         }
 
-        private void Run()
+        public void Run()
         {
             if (commands == null)
             {
@@ -59,35 +54,24 @@ namespace RModeling.Controller
 
         private void TakeNextCommand()
         {
-            currentCommand = commands.Dequeue();
+            if (commands.Count > 0)
+            {
+                currentCommand = commands.Dequeue();
+                currentCommand.Init();
+            } else
+            {
+                this.status = ControllerStatus.Stop;
+            }
         }
 
         public void AddCommand(ICommand command)
         {
-            if (commands == null)
+            if (command == null)
             {
                 throw new ArgumentNullException("Commands queue is null.");
             }
 
             commands.Enqueue(command);
         }
-    }
-
-    public interface ICommand
-    {
-        CommandStatus Execute(float deltaTime);
-    }
-
-    public enum CommandStatus
-    {
-        Done,
-        Failed,
-        Executing
-    }
-
-    public enum ControllerStatus
-    {
-        Stop,
-        Executing,
     }
 }

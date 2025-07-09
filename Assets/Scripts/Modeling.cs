@@ -11,6 +11,15 @@ namespace RModeling
 
         [SerializeField]
         protected Vector3 axis;
+
+        [SerializeField]
+        private float currentValue;
+
+        public float CurrentJointValue
+        {
+            get => currentValue;
+            set => currentValue = value;
+        }
         
         public abstract void MoveJoint(Type value);
     }
@@ -25,6 +34,7 @@ namespace RModeling
         public abstract void MoveJoints(JointType[] values);
         public abstract JointType[] SolveInverse(Pose pose);
         public abstract Pose SolveForward(JointType[] joints);
+        public abstract JointType[] GetValues();
     }
 
     public abstract class Target<Robot, Joint, JointType, Pose> : MonoBehaviour
