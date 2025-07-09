@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace RModeling
+namespace RModeling.Joint
 {
     public class RevoluteJoint : Joint<float>
     {

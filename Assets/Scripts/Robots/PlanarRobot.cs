@@ -1,7 +1,8 @@
+using RModeling.Joint;
 using System.Linq;
 using UnityEngine;
 
-namespace RModeling
+namespace RModeling.Robots
 {
     public class PlanarRobot : Robot<RevoluteJoint, float, PlanarPose>
     {
@@ -32,7 +33,7 @@ namespace RModeling
         {
             if (configuration)
             {
-                numberConfiguration = 1;
+                numberConfiguration = 1; 
             } else
             {
                 numberConfiguration = -1;
@@ -67,9 +68,9 @@ namespace RModeling
         public override PlanarPose SolveForward(float[] joints)
         {
             var t1 = Matrix4x4.identity * Matrix4x4.TRS(Vector3.zero, Quaternion.AngleAxis(joints[0], new Vector3(0, 0, 1)), Vector3.one);
-            var t2 = t1 * Matrix4x4.TRS(new Vector3(0.717f, 0, 0), Quaternion.identity, Vector3.one);
+            var t2 = t1 * Matrix4x4.TRS(new Vector3(Length1, 0, 0), Quaternion.identity, Vector3.one);
             var t3 = t2 * Matrix4x4.TRS(Vector3.zero, Quaternion.AngleAxis(joints[1], new Vector3(0, 0, 1)), Vector3.one);
-            var t4 = t3 * Matrix4x4.TRS(new Vector3(0.717f, 0, 0), Quaternion.identity, Vector3.one);
+            var t4 = t3 * Matrix4x4.TRS(new Vector3(Length2, 0, 0), Quaternion.identity, Vector3.one);
             
             var planarPose = new PlanarPose();
             planarPose.X = t4.GetPosition().x;
