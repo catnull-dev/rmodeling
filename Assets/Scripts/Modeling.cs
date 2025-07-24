@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RModeling
 {
-    public abstract class Joint<Type> : MonoBehaviour
+    public abstract class Joint : MonoBehaviour
     {
         [SerializeField]
         protected Transform target;
@@ -21,30 +21,23 @@ namespace RModeling
             set => currentValue = value;
         }
         
-        public abstract void MoveJoint(Type value);
+        public abstract void MoveJoint(float value);
     }
 
-    public abstract class Robot<Joint, JointType, Pose> : MonoBehaviour
-    where Joint : Joint<JointType>
-    where JointType : struct
-    where Pose : struct
+    public abstract class Robot<Pose> : MonoBehaviour
     {
         [SerializeField]
         protected List<Joint> joints = new List<Joint>();
-        public abstract void MoveJoints(JointType[] values);
-        public abstract JointType[] SolveInverse(Pose pose);
-        public abstract Pose SolveForward(JointType[] joints);
-        public abstract JointType[] GetValues();
+        public abstract void MoveJoints(float[] values);
+        public abstract float[] SolveInverse(Pose pose);
+        public abstract Pose SolveForward(float[] joints);
+        public abstract float[] GetValues();
     }
 
-    public abstract class Target<Robot, Joint, JointType, Pose> : MonoBehaviour
-    where Robot : Robot<Joint, JointType, Pose>
-    where Joint : Joint<JointType>
-    where JointType : struct
-    where Pose : struct
+    public abstract class Target<Pose> : MonoBehaviour
     {
         [SerializeField]
-        public Robot controller;
+        public Robot<Pose> controller;
 
         [SerializeField]
         protected Transform target;

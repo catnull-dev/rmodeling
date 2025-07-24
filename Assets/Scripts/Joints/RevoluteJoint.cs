@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace RModeling.Joint
+namespace RModeling.Joints
 {
-    public class RevoluteJoint : Joint<float>
+    public class RevoluteJoint : Joint
     {
         public override void MoveJoint(float value)
         {

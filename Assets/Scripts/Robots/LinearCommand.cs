@@ -1,14 +1,9 @@
 using RModeling.Controller;
-using RModeling.Joint;
 using System.Numerics;
 
 namespace RModeling.Robots
 {
-    public abstract class SimpleLinearCommand<Robot, Joint, JointType, Pose> : ICommand
-    where Robot: Robot<Joint, JointType, Pose>
-    where Joint: Joint<JointType>
-    where JointType : struct
-    where Pose : struct
+    public abstract class SimpleLinearCommand<Pose> : ICommand
     {
         protected Pose currentPose;
 
@@ -16,13 +11,13 @@ namespace RModeling.Robots
 
         protected CommandStatus status;
 
-        protected Robot robot;
+        protected Robot<Pose> robot;
 
         protected float progress = 0;
 
         protected float totalTime = 5;
 
-        public SimpleLinearCommand(Robot robot, Pose target) {
+        public SimpleLinearCommand(Robot<Pose> robot, Pose target) {
             this.robot = robot;
             this.targetPose = target;
         }
@@ -36,9 +31,9 @@ namespace RModeling.Robots
         public abstract CommandStatus Execute(float deltaTime);
     }
 
-    public class PlanarSimpleLinearCommand : SimpleLinearCommand<PlanarRobot, RevoluteJoint, float, PlanarPose>
+    public class PlanarSimpleLinearCommand : SimpleLinearCommand<PlanarPose>
     {
-        public PlanarSimpleLinearCommand(PlanarRobot robot, PlanarPose target) : base(robot, target)
+        public PlanarSimpleLinearCommand(Robot<PlanarPose> robot, PlanarPose target) : base(robot, target)
         {
         }
 

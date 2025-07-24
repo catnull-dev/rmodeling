@@ -1,10 +1,9 @@
-using RModeling.Joint;
 using System.Linq;
 using UnityEngine;
 
 namespace RModeling.Robots
 {
-    public class PlanarRobot : Robot<RevoluteJoint, float, PlanarPose>
+    public class PlanarRobot : Robot<PlanarPose>
     {
         [SerializeField]
         private float Length1;

@@ -1,9 +1,8 @@
-using RModeling.Joint;
 using UnityEngine;
 
 namespace RModeling
 {
-    public class PlanarTarget : Target<Robot<RevoluteJoint, float, PlanarPose>, RevoluteJoint, float, PlanarPose>
+    public class PlanarTarget : Target<PlanarPose>
     {
         private void Update()
         {
