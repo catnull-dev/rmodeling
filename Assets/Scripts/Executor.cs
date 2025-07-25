@@ -21,24 +21,15 @@ namespace RModeling
             target1.Z = 0.0f;
 
             var target2 = new PlanarPose();
-            target2.X = 0.289f;
-            target2.Y = 0.67f;
+            target2.X = 0.175f;
+            target2.Y = 0.195f;
             target2.Z = 0.0f;
 
-            var target3 = new PlanarPose();
-            target3.X = 0.587f;
-            target3.Y = 0.26f;
-            target3.Z = 0.0f;
-
-
             var linearMovement1 = new PlanarSimpleLinearCommand(planarRobot, target1);
-            controller.AddCommand(linearMovement1);
-
             var linearMovement2 = new PlanarSimpleLinearCommand(planarRobot, target2);
-            controller.AddCommand(linearMovement2);
 
-            var linearMovement3 = new PlanarSimpleLinearCommand(planarRobot, target3);
-            controller.AddCommand(linearMovement3);
+            controller.AddCommand(linearMovement1);
+            controller.AddCommand(linearMovement2);
 
             controller.Run();
         }

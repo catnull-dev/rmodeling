@@ -16,7 +16,7 @@ namespace RModeling
 
         protected float progress = 0;
 
-        protected float totalTime = 5;
+        protected float totalTime = 10;
 
         public SimplePtpCommand(Robot<Pose> robot, Pose target)
         {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RModeling.Controller
 {
@@ -12,11 +13,15 @@ namespace RModeling.Controller
 
         private ControllerStatus status;
 
+        public UnityEvent OnStartMovement;
+
+        public UnityEvent OnEndMovement;
+
         private void Update()
         {
             if (this.status == ControllerStatus.Executing)
             {
-                Step(Time.deltaTime);
+                Step(Time.fixedDeltaTime);
             }
         }
 
@@ -31,6 +36,7 @@ namespace RModeling.Controller
             {
                 TakeNextCommand();
                 this.status = ControllerStatus.Executing;
+                OnStartMovement?.Invoke();
             }
         }
 
@@ -48,6 +54,7 @@ namespace RModeling.Controller
                     break;
                 case CommandStatus.Failed:
                     this.status = ControllerStatus.Stop;
+                    OnEndMovement?.Invoke();
                     break;
             }
         }
@@ -61,6 +68,8 @@ namespace RModeling.Controller
             } else
             {
                 this.status = ControllerStatus.Stop;
+                OnEndMovement?.Invoke();
+                Debug.Log("Controller stop.");
             }
         }
 

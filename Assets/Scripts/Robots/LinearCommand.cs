@@ -15,7 +15,7 @@ namespace RModeling.Robots
 
         protected float progress = 0;
 
-        protected float totalTime = 5;
+        protected float totalTime = 10;
 
         public SimpleLinearCommand(Robot<Pose> robot, Pose target) {
             this.robot = robot;
